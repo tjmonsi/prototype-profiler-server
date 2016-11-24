@@ -28,6 +28,8 @@ ref.on("child_added", function(snapshot) {
     if (err) {
       console.log(err)
     }
+    
+    console.log(faces);
     for (var i in faces) {
       db.ref('/processed_images/' + key + '/faces/' + i).set(faces[i]);
     }
