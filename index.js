@@ -37,15 +37,24 @@ ref.on("child_added", function(snapshot) {
     if (err) {
       console.log(err)
     }
-    
-    console.log(labels);
+
     for (var i in labels) {
       db.ref('/processed_images/' + key + '/labels/' + i).set(labels[i]);
     }
   });
 
   
+  vision.detectText(inputFile, { verbose: true }, function(err, text) {
+    if (err) {
+      console.log(err)
+    }
+    console.log(text)
+    for (var i in text) {
+      db.ref('/processed_images/' + key + '/text/' + i).set(text[i]);
+    }
+  })
 
+  
   
 
   setTimeout(function() {
