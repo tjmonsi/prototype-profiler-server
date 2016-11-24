@@ -28,12 +28,23 @@ ref.on("child_added", function(snapshot) {
     if (err) {
       console.log(err)
     }
-    
-    console.log(faces);
     for (var i in faces) {
       db.ref('/processed_images/' + key + '/faces/' + i).set(faces[i]);
     }
   });
+  
+  vision.detectLabels(inputFile, { verbose: true }, function (err, labels) {
+    if (err) {
+      console.log(err)
+    }
+    
+    console.log(labels);
+    for (var i in labels) {
+      db.ref('/processed_images/' + key + '/labels/' + i).set(labels[i]);
+    }
+  });
+
+  
 
   
 
