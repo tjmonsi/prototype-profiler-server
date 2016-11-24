@@ -22,6 +22,8 @@ ref.on("child_added", function(snapshot) {
   var email = obj.email;
   var key = snapshot.key;
 
+  console.log(obj)
+  
   vision.detectFaces(inputFile, function (err, faces) {
     if (err) {
       console.log(err)
@@ -31,32 +33,7 @@ ref.on("child_added", function(snapshot) {
     }
   });
 
-  vision.detectLabels(inputFile, { verbose: true }, function (err, labels) {
-    if (err) {
-      console.log(err)
-    }
-    for (var i in labels) {
-      db.ref('/processed_images/' + key + '/labels/' + i).set(labels[i]);
-    }
-  });
-
-  vision.detectText(inputFile, { verbose: true }, function(err, text) {
-    if (err) {
-      console.log(err)
-    }
-    for (var i in text) {
-      db.ref('/processed_images/' + key + '/text/' + i).set(text[i]);
-    }
-  })
-
-  vision.detectLandmarks(inputFile, { verbose: true }, function(err, landmarks) {
-    if (err) {
-        console.log(err)
-      }
-      for (var i in landmarks) {
-        db.ref('/processed_images/' + key + '/landmarks/' + i).set(landmarks[i]);
-      }
-  });
+  
 
   setTimeout(function() {
     db.ref('/processed_images/' + key + '/data').set({
