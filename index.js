@@ -43,19 +43,23 @@ ref.on("child_added", function(snapshot) {
     }
   });
 
-  
   vision.detectText(inputFile, { verbose: true }, function(err, text) {
     if (err) {
       console.log(err)
     }
-    console.log(text)
     for (var i in text) {
       db.ref('/processed_images/' + key + '/text/' + i).set(text[i]);
     }
   })
 
-  
-  
+  vision.detectLandmarks(inputFile, { verbose: true }, function(err, landmarks) {
+    if (err) {
+        console.log(err)
+      }
+      for (var i in landmarks) {
+        db.ref('/processed_images/' + key + '/landmarks/' + i).set(landmarks[i]);
+      }
+  });
 
   setTimeout(function() {
     db.ref('/processed_images/' + key + '/data').set({
