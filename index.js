@@ -1,7 +1,5 @@
 var admin = require("firebase-admin");
 var Vision = require('@google-cloud/vision');
-var util = require('util');
-var fs = require('fs');
 
 // Instantiate a vision client
 var vision = Vision();
@@ -17,16 +15,12 @@ admin.initializeApp({
 
 var db = admin.database();
 var ref = db.ref("/images");
-var processed = db.ref('/processed_images');
 ref.on("child_added", function(snapshot) {
   var obj = snapshot.val();
   var inputFile = obj.url;
   var uid = obj.uid;
   var email = obj.email;
   var key = snapshot.key;
-
-  console.log(key)
-  
 
   vision.detectFaces(inputFile, function (err, faces) {
     if (err) {
@@ -71,5 +65,5 @@ ref.on("child_added", function(snapshot) {
       dateTaken: admin.database.ServerValue.TIMESTAMP
     });
     admin.database().ref("/images/"+key).remove();
-  }, 2000)
+  }, 5000)
 });
