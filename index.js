@@ -56,6 +56,7 @@ ref.on("child_added", function(snapshot) {
     if (err) {
         console.log(err)
       }
+      console.log(landmarks);
       for (var i in landmarks) {
         db.ref('/processed_images/' + key + '/landmarks/' + i).set(landmarks[i]);
       }
